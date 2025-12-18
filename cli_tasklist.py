@@ -2,6 +2,27 @@ import argparse
 
 FILENAME = "todo.txt"
 
+def add_item(item):
+    with open(FILENAME, "a") as file:
+        file.write(f"{item}\n")
+        file.close()
+    print(f"Added task: {item}")
+
+def list_items():
+    lines = None
+    try:
+        with open(FILENAME, "r") as file:
+            lines = file.readlines()
+    except FileNotFoundError:
+        print(f"Error: File '{FILENAME}' not found.")
+
+    if not lines:
+        print("No items found.")
+    else:
+        print(lines)
+        for i, line in enumerate(lines):
+            print(f"{i+1}. {line.strip()}")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Manage your to-do list")
     parser.add_argument("action", choices=["add", "list", "done"], help="Action to perform")
