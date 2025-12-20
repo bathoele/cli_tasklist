@@ -26,7 +26,7 @@ def main():
     def handle_cmd():
         if cmd_input.startswith("add ") and cmd_input.endswith('"'):
             add()
-        if cmd_input.startswith("list"):
+        if cmd_input.startswith("list "):
             list_tasks()
 
     if True:
