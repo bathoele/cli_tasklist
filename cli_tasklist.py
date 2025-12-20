@@ -4,8 +4,7 @@ task_list = []
 increment_id = 0
 
 def main():
-
-    cmd_input = input("Give me task: ")
+    cmd_input = input("Give me new input!: ")
 
     def add():
         task_input = cmd_input.replace('add "', "", 1)
@@ -21,7 +20,7 @@ def main():
 
     def list_tasks():
         if cmd_input.replace(" ", "") == "list":
-            print("listing items")
+            print("listing all items")
 
     def handle_cmd():
         if cmd_input.startswith("add ") and cmd_input.endswith('"'):
@@ -31,6 +30,7 @@ def main():
 
     if True:
         handle_cmd()
+
 
 if __name__ == '__main__':
     main()
