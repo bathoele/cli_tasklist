@@ -1,59 +1,23 @@
-import argparse
 
-FILENAME = "todo.txt"
 
-def add_item(item):
-    with open(FILENAME, "a") as file:
-        file.write(f"{item}\n")
-        file.close()
-    print(f"Added task: {item}")
+def main():
 
-def list_items():
-    lines = None
-    try:
-        with open(FILENAME, "r") as file:
-            lines = file.readlines()
-    except FileNotFoundError:
-        print(f"Error: File '{FILENAME}' not found.")
+    cmd_input = input("Give me task: ")
 
-    if not lines:
-        print("No items found.")
-    else:
-        print(lines)
-        for i, line in enumerate(lines):
-            print(f"{i+1}. {line.strip()}")
+    def add():
+        task_input = cmd_input.replace('add "', "", 1)
+        task_input = task_input.replace('"', "")
 
-def mark_item_done(item_number):
-    with open(FILENAME, "r") as file:
-        lines = file.readlines()
+        # add task description to \json file
 
-    if not lines:
-        print("No items found.")
-    elif item_number < 1 or item_number > len(lines):
-        print("Invalid item number.")
-    else:
-#       the line below removes the \n character which interrupts escape sequence
-        item = lines[item_number-1].rstrip()
-#       item add_strikethrough(item)
-        with open(FILENAME, "w") as file:
-            for i, line in enumerate(lines):
-                if i == item_number-1:
-                    file.write(f"{item}\n")
-                    print(f"Marked item as done: {item}")
-                else:
-                    print(line)
-                    file.write(line)
+        print(f"{task_input} was added to the list!")
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Manage your to-do list")
-    parser.add_argument("action", choices=["add", "list", "done"], help="Action to perform")
-    parser.add_argument("--item-text", help="Text of the item to add")
-    parser.add_argument("--item-number", type=int, help="Number of the item to mark done")
-    args = parser.parse_args()
+    def handle_cmd():
+        if cmd_input.startswith("add ") and cmd_input.endswith('"'):
+            add()
 
-    if args.action == "add":
-        add_item(args.item_text)
-    elif args.action == "done":
-        mark_item_done(args.item_number)
-    elif args.action == "list":
-        list_items()
+    if True:
+        handle_cmd()
+
+if __name__ == '__main__':
+    main()
