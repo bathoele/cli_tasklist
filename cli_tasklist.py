@@ -29,6 +29,7 @@ def main():
         if cmd_input.startswith("list "):
             list_tasks()
         cmd_input = input("Give me new input! ")
+        handle_cmd()
 
     if True:
         handle_cmd()
