@@ -55,12 +55,25 @@ def main():
                 print(f"Task '{task["description"]}' was removed!")
 
     def list_tasks():
-        if cmd_input.rstrip(" ") == "list":
-            print("listing all items")
-    #       load and display \json file
+        global task_list
 
+        def display(status):
+            for item in task_list:
+                if item["status"] == status:
+                    print(f"{item['id']} {item['description']} ({item['status']})")
+
+        if cmd_input.rstrip(" ") == "list":
+    #       load and display \json file
             for task in task_list:
-                print(f"({task['id']}) {task['status']}: {task['description']}")
+                print(f"{task['id']} {task['description']} ({task['status']})")
+        else:
+            match cmd_input.split()[1]:
+                case "done":
+                    display("done")
+                case "to-do":
+                    display("to-do")
+                case "in-progress":
+                    display("in-progress")
 
     def handle_cmd():
         nonlocal cmd_input
