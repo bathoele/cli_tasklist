@@ -7,19 +7,25 @@ def main():
     cmd_input = input("Give me first input! ")
 
     def add():
-        global increment_id
-        increment_id += 1
+        global task_list
         task_input = cmd_input.replace('add "', "", 1)
         task_input = task_input.replace('"', "")
 
         task_list.append({
-            "id": increment_id,
+            "id": len(task_list) + 1,
             "description": task_input,
             "status": "to-do",
         })
         # add task details to \json file
 
         print(f"{task_input} was added to the list!")
+
+    def delete(task_num):
+        global task_list
+        for task in task_list:
+            if str(task["id"]) == task_num:
+                task_list.remove(task)
+                print(f"Task '{task["description"]}' was removed!")
 
     def list_tasks():
         if cmd_input.replace(" ", "") == "list":
@@ -34,6 +40,9 @@ def main():
             add()
         if cmd_input.startswith("list"):
             list_tasks()
+        if cmd_input.startswith("delete") and cmd_input[-1].isdigit():
+            delete(cmd_input[-1])
+
         cmd_input = input("Give me new input! ")
         handle_cmd()
 
