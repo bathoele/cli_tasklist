@@ -46,7 +46,6 @@ def main():
             task_list[task_index]["status"] = "in-progress"
         else:
             task_list[task_index]["status"] = "done"
-        print(task_list[task_index]["status"])
 
     def delete(task_num):
         global task_list
@@ -56,12 +55,12 @@ def main():
                 print(f"Task '{task["description"]}' was removed!")
 
     def list_tasks():
-        if cmd_input.replace(" ", "") == "list":
+        if cmd_input.rstrip(" ") == "list":
             print("listing all items")
     #       load and display \json file
 
             for task in task_list:
-                print(f"{task['id']}. {task['description']}")
+                print(f"({task['id']}) {task['status']}: {task['description']}")
 
     def handle_cmd():
         nonlocal cmd_input
