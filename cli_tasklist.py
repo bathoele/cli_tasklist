@@ -3,6 +3,7 @@
 task_list = []
 
 def main():
+    print('Welcome to the task cli app!')
     cmd_input = input("Give me first input! ")
 
     def sort_ids():
@@ -16,15 +17,16 @@ def main():
         global task_list
         task_input = cmd_input.replace('add "', "", 1)
         task_input = task_input.replace('"', "")
+        task_id = len(task_list) + 1
 
         task_list.append({
-            "id": len(task_list) + 1,
+            "id": task_id,
             "description": task_input,
             "status": "to-do",
         })
     #   add task details to \json file
 
-        print(f"{task_input} was added to the list!")
+        print(f"{task_input} (ID: {task_list[task_id - 1]["id"]}) was added to the list!")
 
     def update():
         global task_list
@@ -58,9 +60,13 @@ def main():
         global task_list
 
         def display(status):
+            list_absent = True
             for item in task_list:
                 if item["status"] == status:
+                    list_absent = False
                     print(f"{item['id']} {item['description']} ({item['status']})")
+            if list_absent:
+                print(f"Sorry, there are no '{status}' tasks!")
 
         if cmd_input.rstrip(" ") == "list":
     #       load and display \json file
@@ -91,7 +97,7 @@ def main():
             mark_progress(input_list[0], input_list[1])
 
         sort_ids()
-        cmd_input = input("Give me new input! ")
+        cmd_input = input()
         handle_cmd()
 
     if True:
