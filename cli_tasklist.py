@@ -22,7 +22,7 @@ def main():
             "description": task_input,
             "status": "to-do",
         })
-        # add task details to \json file
+    #   add task details to \json file
 
         print(f"{task_input} was added to the list!")
 
@@ -37,6 +37,17 @@ def main():
             task_index = int(task_num) - 1
             task_list[task_index]["description"] = new_desc
 
+    #       update \json file
+
+    def mark_progress(cmd, task_num):
+        global task_list
+        task_index = int(task_num) - 1
+        if cmd == "mark-in-progress":
+            task_list[task_index]["status"] = "in-progress"
+        else:
+            task_list[task_index]["status"] = "done"
+        print(task_list[task_index]["status"])
+
     def delete(task_num):
         global task_list
         for task in task_list:
@@ -47,7 +58,8 @@ def main():
     def list_tasks():
         if cmd_input.replace(" ", "") == "list":
             print("listing all items")
-    #       load and display json file
+    #       load and display \json file
+
             for task in task_list:
                 print(f"{task['id']}. {task['description']}")
 
@@ -62,6 +74,9 @@ def main():
             delete(last_char)
         if cmd_input.startswith("update"):
             update()
+        if cmd_input.startswith(("mark-in-progress", "mark-done")) and last_char.isdigit():
+            input_list = cmd_input.split()
+            mark_progress(input_list[0], input_list[1])
 
         sort_ids()
         cmd_input = input("Give me new input! ")
