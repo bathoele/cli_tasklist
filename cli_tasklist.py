@@ -1,4 +1,4 @@
-
+import datetime
 
 task_list = []
 
@@ -23,6 +23,8 @@ def main():
             "id": task_id,
             "description": task_input,
             "status": "to-do",
+            "createdAt": datetime.datetime.now(),
+            "updatedAt": False,
         })
     #   add task details to \json file
 
@@ -38,6 +40,7 @@ def main():
             new_desc = input_list[2].replace('"', '').lstrip()
             task_index = int(task_num) - 1
             task_list[task_index]["description"] = new_desc
+            task_list[task_index]["updatedAt"] = datetime.datetime.now()
 
     #       update \json file
 
@@ -102,7 +105,6 @@ def main():
 
     if True:
         handle_cmd()
-
 
 if __name__ == '__main__':
     main()
