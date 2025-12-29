@@ -1,10 +1,17 @@
 
 
 task_list = []
-increment_id = len(task_list)
 
 def main():
     cmd_input = input("Give me first input! ")
+
+    def sort_ids():
+        global task_list
+        increment_id = 0
+        for task in task_list:
+            task["id"] = increment_id + 1
+            increment_id += 1
+
 
     def add():
         global task_list
@@ -43,6 +50,7 @@ def main():
         if cmd_input.startswith("delete") and cmd_input[-1].isdigit():
             delete(cmd_input[-1])
 
+        sort_ids()
         cmd_input = input("Give me new input! ")
         handle_cmd()
 
