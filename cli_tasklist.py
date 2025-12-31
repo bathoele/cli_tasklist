@@ -1,5 +1,6 @@
 import datetime
 import os
+import json
 
 task_list = []
 
@@ -27,8 +28,6 @@ def main():
             "createdAt": datetime.datetime.now(),
             "updatedAt": False,
         })
-    #   add task details to \json file
-
         print(f"{task_input} (ID: {task_list[task_id - 1]["id"]}) was added to the list!")
 
     def update():
@@ -101,14 +100,20 @@ def main():
             mark_progress(input_list[0], input_list[1])
 
         sort_ids()
+
+        # update json
+        if not os.path.exists('best_task_list.json'):
+            with open("best_task_list.json", 'w') as f:
+                task_list = json.load(f)
+        else:
+            pass
+
         cmd_input = input()
         handle_cmd()
 
     if True:
         handle_cmd()
 
-if not os.path.exists('best_task_list.json'):
-    json_list = open("best_task_list.json", "w")
 
 if __name__ == '__main__':
     main()
