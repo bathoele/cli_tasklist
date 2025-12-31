@@ -1,4 +1,5 @@
 import datetime
+import os
 
 task_list = []
 
@@ -105,6 +106,9 @@ def main():
 
     if True:
         handle_cmd()
+
+if not os.path.exists('best_task_list.json'):
+    json_list = open("best_task_list.json", "w")
 
 if __name__ == '__main__':
     main()
