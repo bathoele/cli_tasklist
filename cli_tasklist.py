@@ -25,7 +25,10 @@ def main():
                 print(the_put)
 
                 if the_put.startswith("add "):
-                    if re.search(regex):
+                    if re.search(r"^add [\"'][a-zA-Z\s]+[\"']", the_put):
+                        pass
+                    else:
+                        print("Please put your task name in quotes!")
                 elif the_put.startswith("delete " or "mark-in-progress " or "mark-done "):
                     pass
                 elif the_put.startswith("update "):
