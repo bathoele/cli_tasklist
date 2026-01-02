@@ -30,14 +30,14 @@ def main():
                     else:
                         print("Please put your task name in quotes!")
                 elif the_put.startswith("delete " or "mark-in-progress " or "mark-done "):
-                    pass
+                    if re.search(r"^[a-z-]+ [0-9]+", the_put):
+                        # check if the id used is available
+                        pass
                 elif the_put.startswith("update "):
-                    pass
+                    if re.search(r"^update [0-9]+ [\"'][a-zA-z\s]+[\"']", the_put):
+                        pass
                 elif the_put == "list to-do" or "list done" or "list in-progress":
                     pass
-
-
-
             else:
                 print("Please format the command correctly")
         else:
