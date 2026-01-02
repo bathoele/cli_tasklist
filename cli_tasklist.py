@@ -1,8 +1,15 @@
 import datetime
 import os
 import json
+import re
+
+print('Welcome to the task cli app!')
 
 task_list = []
+cmd_list = ["add", "delete", "update", "list", "mark-in-progress", "mark-done"]
+space_list = []
+for word in cmd_list:
+    space_list.append(f"{word} ")
 
 # if file exists, load \json to task_list
 if os.path.exists("best_task_list.json"):
@@ -10,9 +17,29 @@ if os.path.exists("best_task_list.json"):
         task_list = json.load(f)
         f.close()
 
-print('Welcome to the task cli app!')
-
 def main():
+    def check_input(the_put):
+        if the_put.startswith(tuple(cmd_list)):
+            if the_put.startswith(tuple(space_list)) or the_put.replace(" ", "") == "list":
+                # check for add, delete, and update
+                print(the_put)
+
+                if the_put.startswith("add "):
+                    if re.search(regex):
+                elif the_put.startswith("delete " or "mark-in-progress " or "mark-done "):
+                    pass
+                elif the_put.startswith("update "):
+                    pass
+                elif the_put == "list to-do" or "list done" or "list in-progress":
+                    pass
+
+
+
+            else:
+                print("Please format the command correctly")
+        else:
+            print("Please use one of the command keywords.")
+
     cmd_input = input("Give me first input! ")
 
     def sort_ids():
@@ -94,14 +121,6 @@ def main():
     def handle_cmd():
         nonlocal cmd_input
 
-        # check the format of the input:
-
-        # if it is empty or only spaces
-        if cmd_input.isspace() or len(cmd_input) == 0:
-            main()
-        #
-
-        last_char = cmd_input[-1]
         if cmd_input.startswith("add ") and cmd_input.endswith('"'):
             add()
         if cmd_input == "list" or cmd_input.startswith("list "):
@@ -122,9 +141,11 @@ def main():
             g.close()
 
         cmd_input = input()
+        check_input(cmd_input)
         handle_cmd()
 
     if True:
+        check_input(cmd_input)
         handle_cmd()
 
 if __name__ == '__main__':
