@@ -18,32 +18,42 @@ if os.path.exists("best_task_list.json"):
         f.close()
 
 def main():
+    cmd_input = input("Give me first input! ")
+
     def check_input(the_put):
         if the_put.startswith(tuple(cmd_list)):
             if the_put.startswith(tuple(space_list)) or the_put.replace(" ", "") == "list":
                 # check for add, delete, and update
-                print(the_put)
 
                 if the_put.startswith("add "):
                     if re.search(r"^add [\"'][a-zA-Z\s]+[\"']", the_put):
-                        pass
+                        return True
                     else:
                         print("Please put your task name in quotes!")
+                        return False
                 elif the_put.startswith("delete " or "mark-in-progress " or "mark-done "):
                     if re.search(r"^[a-z-]+ [0-9]+", the_put):
-                        # check if the id used is available
-                        pass
+                        # return false if the id used is not available
+                        return True
+                    else:
+                        print("This command only takes an ID number!")
+                        return False
                 elif the_put.startswith("update "):
                     if re.search(r"^update [0-9]+ [\"'][a-zA-z\s]+[\"']", the_put):
-                        pass
+                        # return false if the id used is not available
+                        return True
+                    else:
+                        print("The update command first takes an ID number and ends with the new task name!")
+                        return False
                 elif the_put == "list to-do" or "list done" or "list in-progress":
-                    pass
+                    return True
+                return True
             else:
                 print("Please format the command correctly")
+                return False
         else:
             print("Please use one of the command keywords.")
-
-    cmd_input = input("Give me first input! ")
+            return False
 
     def sort_ids():
         global task_list
@@ -124,15 +134,15 @@ def main():
     def handle_cmd():
         nonlocal cmd_input
 
-        if cmd_input.startswith("add ") and cmd_input.endswith('"'):
+        if cmd_input.startswith("add"):
             add()
-        if cmd_input == "list" or cmd_input.startswith("list "):
+        if cmd_input.startswith("list"):
             list_tasks()
-        if cmd_input.startswith("delete ") and cmd_input[7].isdigit() and cmd_input.endswith(cmd_input[7]):
+        if cmd_input.startswith("delete"):
             delete(cmd_input[7])
-        if cmd_input.startswith("update ") and cmd_input[7].isdigit() and cmd_input[8].isspace():
+        if cmd_input.startswith("update"):
             update()
-        if cmd_input.startswith(("mark-in-progress", "mark-done")) and cmd_input[-1].isdigit():
+        if cmd_input.startswith(("mark-in-progress", "mark-done")):
             input_list = cmd_input.split()
             mark_progress(input_list[0], input_list[1])
 
@@ -144,11 +154,15 @@ def main():
             g.close()
 
         cmd_input = input()
-        check_input(cmd_input)
+        if not check_input(cmd_input):
+            main()
+            return
         handle_cmd()
 
     if True:
-        check_input(cmd_input)
+        if check_input(cmd_input) == bool(False):
+            main()
+            return
         handle_cmd()
 
 if __name__ == '__main__':
