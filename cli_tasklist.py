@@ -10,8 +10,9 @@ if os.path.exists("best_task_list.json"):
         task_list = json.load(f)
         f.close()
 
+print('Welcome to the task cli app!')
+
 def main():
-    print('Welcome to the task cli app!')
     cmd_input = input("Give me first input! ")
 
     def sort_ids():
@@ -92,16 +93,24 @@ def main():
 
     def handle_cmd():
         nonlocal cmd_input
+
+        # check the format of the input:
+
+        # if it is empty or only spaces
+        if cmd_input.isspace() or len(cmd_input) == 0:
+            main()
+        #
+
         last_char = cmd_input[-1]
         if cmd_input.startswith("add ") and cmd_input.endswith('"'):
             add()
-        if cmd_input.startswith("list"):
+        if cmd_input == "list" or cmd_input.startswith("list "):
             list_tasks()
-        if cmd_input.startswith("delete") and last_char.isdigit():
-            delete(last_char)
-        if cmd_input.startswith("update"):
+        if cmd_input.startswith("delete ") and cmd_input[7].isdigit() and cmd_input.endswith(cmd_input[7]):
+            delete(cmd_input[7])
+        if cmd_input.startswith("update ") and cmd_input[7].isdigit() and cmd_input[8].isspace():
             update()
-        if cmd_input.startswith(("mark-in-progress", "mark-done")) and last_char.isdigit():
+        if cmd_input.startswith(("mark-in-progress", "mark-done")) and cmd_input[-1].isdigit():
             input_list = cmd_input.split()
             mark_progress(input_list[0], input_list[1])
 
