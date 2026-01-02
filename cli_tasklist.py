@@ -4,6 +4,12 @@ import json
 
 task_list = []
 
+# if file exists, load \json to task_list
+if os.path.exists("best_task_list.json"):
+    with open("best_task_list.json") as f:
+        task_list = json.load(f)
+        f.close()
+
 def main():
     print('Welcome to the task cli app!')
     cmd_input = input("Give me first input! ")
@@ -101,19 +107,16 @@ def main():
 
         sort_ids()
 
-        # update json
-        if not os.path.exists('best_task_list.json'):
-            with open("best_task_list.json", 'w') as f:
-                task_list = json.load(f)
-        else:
-            pass
+        # update the file with the saved task_list
+        with open("best_task_list.json", "w") as g:
+            g.write(json.dumps(task_list, indent=4, default=str))
+            g.close()
 
         cmd_input = input()
         handle_cmd()
 
     if True:
         handle_cmd()
-
 
 if __name__ == '__main__':
     main()
