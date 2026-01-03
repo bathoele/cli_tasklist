@@ -20,7 +20,7 @@ if os.path.exists("best_task_list.json"):
 def main():
     cmd_input = input("Give me first input! ")
 
-    def check_input(the_put):
+    def input_passes(the_put):
         if the_put.startswith(tuple(cmd_list)):
             if the_put.startswith(tuple(space_list)) or the_put.replace(" ", "") == "list":
                 # check for add, delete, and update
@@ -34,6 +34,10 @@ def main():
                 elif the_put.startswith("delete " or "mark-in-progress " or "mark-done "):
                     if re.search(r"^[a-z-]+ [0-9]+", the_put):
                         # return false if the id used is not available
+                        num_input = re.findall(r"-?\d*\.?\d+", the_put)
+                        if int(num_input[0]) > len(task_list):
+                            print("Please enter a valid task ID!")
+                            return False
                         return True
                     else:
                         print("This command only takes an ID number!")
@@ -41,6 +45,10 @@ def main():
                 elif the_put.startswith("update "):
                     if re.search(r"^update [0-9]+ [\"'][a-zA-z\s]+[\"']", the_put):
                         # return false if the id used is not available
+                        num_input = re.findall(r"-?\d*\.?\d+", the_put)
+                        if int(num_input[0]) > len(task_list):
+                            print("Please enter a valid task ID!")
+                            return False
                         return True
                     else:
                         print("The update command first takes an ID number and ends with the new task name!")
@@ -59,8 +67,8 @@ def main():
         global task_list
         increment_id = 0
         for task in task_list:
-            task["id"] = increment_id + 1
             increment_id += 1
+            task["id"] = increment_id
 
     def add():
         global task_list
@@ -154,13 +162,13 @@ def main():
             g.close()
 
         cmd_input = input()
-        if not check_input(cmd_input):
+        if not input_passes(cmd_input):
             main()
             return
         handle_cmd()
 
     if True:
-        if check_input(cmd_input) == bool(False):
+        if not input_passes(cmd_input):
             main()
             return
         handle_cmd()
